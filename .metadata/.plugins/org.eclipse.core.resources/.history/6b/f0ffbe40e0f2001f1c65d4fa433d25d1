@@ -1,0 +1,1106 @@
+////package demo;
+////
+////import java.time.Duration;
+////
+////import org.openqa.selenium.By;
+////import org.openqa.selenium.WebDriver;
+////import org.openqa.selenium.WebElement;
+////import org.openqa.selenium.chrome.ChromeDriver;
+////import org.testng.annotations.AfterTest;
+////import org.testng.annotations.BeforeTest;
+////import org.testng.annotations.Test;
+////
+////public class amazonTesting {
+////	public String base = "https://www.amazon.in/?tag=googmantxtmob170-21&ascsubtag=_k_CjwKCAjw1920BhA3EiwAJT3lSaVLIcCgtcZROE07wnv-C1-BOFq8vW6Bm8hwRlagIyD_2tGBu7brdhoCP7cQAvD_BwE_k_";
+////	public WebDriver driver;
+////	@BeforeTest
+////	public void setup() {
+////		System.out.println("Before Test Executed");
+////		driver = new ChromeDriver();
+////		driver.manage().window().maximize();
+////		driver.get(base);
+////		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+////		}
+////	
+////	@Test
+////    public void testAmazonHomePage() {
+////	        System.out.println("Test Amazon Home Page Executed");
+////	        // Add your test code here
+////	    }
+////	
+////	public void searchbox() {
+////		WebElement searchBox =driver.findElement(By.id("twotabsearchtextbox"));
+////		searchBox.sendKeys("Iphone x");
+//////		searchBox.submit();
+////		driver.findElement(By.xpath("//*[@id='nav-search-submit-button']")).click();
+////	}
+////	
+////	@AfterTest
+////	public void tearDown() throws InterruptedException {
+////		Thread.sleep(1000);
+////		driver.close();
+////		driver.quit();
+////		}
+////}
+//
+//
+//
+//
+//
+//
+////package demo;
+////
+////import java.time.Duration;
+////import java.util.List;
+////
+////import org.openqa.selenium.By;
+////import org.openqa.selenium.JavascriptExecutor;
+////import org.openqa.selenium.WebDriver;
+////import org.openqa.selenium.WebElement;
+////import org.openqa.selenium.chrome.ChromeDriver;
+////import org.openqa.selenium.support.ui.ExpectedConditions;
+////import org.openqa.selenium.support.ui.FluentWait;
+////import org.openqa.selenium.support.ui.WebDriverWait;
+////import org.testng.annotations.AfterTest;
+////import org.testng.annotations.BeforeTest;
+////import org.testng.annotations.Test;
+////
+////public class amazonTesting {
+////    public String base = "https://www.amazon.in/?tag=googmantxtmob170-21&ascsubtag=k_CjwKCAjw1920BhA3EiwAJT3lSaVLIcCgtcZROE07wnv-C1-BOFq8vW6Bm8hwRlagIyD_2tGBu7brdhoCP7cQAvD_BwE_k";
+////    public WebDriver driver;
+////
+////    @BeforeTest
+////    public void setup() {
+////        System.out.println("Before Test Executed");
+////       System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+////        driver = new ChromeDriver();
+////        driver.manage().window().maximize();
+////        driver.get(base);
+////        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+////    }
+////
+////    @Test
+////    public void testAmazonHomePage() {
+////    	FluentWait<WebDriver> wait = null;
+////		WebElement signInButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-link-accountList")));
+////        signInButton.click();
+////
+////        // Enter email address
+////        WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email")));
+////        emailField.sendKeys("sarvottambhagat38@gmail.com");
+////        driver.findElement(By.id("continue")).click();
+////
+////        // Enter password
+////        WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
+////        passwordField.sendKeys("cmrit@123");
+////        driver.findElement(By.id("signInSubmit")).click();
+////        System.out.println("Test Amazon Home Page Executed");
+////        searchAndSelectItem("Apple iPhone 15 Pro (128 GB) - Natural Titanium");
+////        searchForTShirtForMen();
+////        applyBrandFilter("Allen Solly");
+////    }
+////
+////    public void searchAndSelectItem(String itemName) {
+////        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+////        searchBox.sendKeys(itemName);
+////        driver.findElement(By.id("nav-search-submit-button")).click();
+////
+////        // Wait for search results to load
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal")));
+////
+////        // Scroll and find the item
+////        boolean itemFound = false;
+////        int scrollAttempts = 0;
+////        while (!itemFound && scrollAttempts < 10) { // Limit the number of scroll attempts to avoid infinite loop
+////            List<WebElement> items = driver.findElements(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal"));
+////            for (WebElement item : items) {
+////                if (item.getText().contains(itemName)) {
+////                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", item);
+////                    wait.until(ExpectedConditions.elementToBeClickable(item));
+////                    item.click();
+////                    itemFound = true;
+////                    break;
+////                }
+////            }
+////            if (!itemFound) {
+////                // Scroll down by 1000 pixels
+////                System.out.println("Scrolling down by 1000 pixels...");
+////                ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,1000)");
+////                // Wait for 3 seconds after scrolling
+////                try {
+////                    Thread.sleep(3000);
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+////                scrollAttempts++;
+////            }
+////        }
+////
+////        if (!itemFound) {
+////            System.out.println("Item not found after scrolling.");
+////        } else {
+////            System.out.println("Item found and clicked: " + itemName);
+////        }
+////    }
+////
+////    public void searchForTShirtForMen() {
+////        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+////        searchBox.clear();
+////        searchBox.sendKeys("t-shirt for men");
+////        driver.findElement(By.id("nav-search-submit-button")).click();
+////
+////        // Wait for search results to load
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal")));
+////
+////        // Scroll and find the item
+////        boolean itemFound = false;
+////        int scrollAttempts = 0;
+////        while (!itemFound && scrollAttempts < 10) { // Limit the number of scroll attempts to avoid infinite loop
+////            List<WebElement> items = driver.findElements(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal"));
+////            for (WebElement item : items) {
+////                if (item.getText().contains("t-shirt for men")) {
+////                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", item);
+////                    wait.until(ExpectedConditions.elementToBeClickable(item));
+////                    item.click();
+////                    itemFound = true;
+////                    break;
+////                }
+////            }
+////            if (!itemFound) {
+////                // Scroll down by 1000 pixels
+////                System.out.println("Scrolling down by 1000 pixels...");
+////                ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,1000)");
+////                // Wait for 3 seconds after scrolling
+////                try {
+////                    Thread.sleep(3000);
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+////                scrollAttempts++;
+////            }
+////        }
+////
+////        if (!itemFound) {
+////            System.out.println("T-shirt for men not found after scrolling.");
+////        } else {
+////            System.out.println("T-shirt for men found and clicked.");
+////        }
+////    }
+////
+////    public void applyBrandFilter(String brandName) {
+////        WebElement brandFilter = driver.findElement(By.xpath("//span[contains(text(), 'Brand')]"));
+////        brandFilter.click();
+////
+////        // Wait for brand filter options to load
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='brandsRefinements']//span[contains(text(), '" + brandName + "')]")));
+////
+////        // Click on the specified brand filter
+////        WebElement brandOption = driver.findElement(By.xpath("//div[@id='brandsRefinements']//span[contains(text(), '" + brandName + "')]"));
+////        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", brandOption);
+////        wait.until(ExpectedConditions.elementToBeClickable(brandOption));
+////        brandOption.click();
+////
+////        System.out.println("Applied brand filter: " + brandName);
+////    }
+////
+////    @AfterTest
+////    public void tearDown() throws InterruptedException {
+////        Thread.sleep(1000);
+////        driver.close();
+////        driver.quit();
+////    }
+////}
+//
+//
+//
+//
+////package demo;
+////
+////import org.openqa.selenium.By;
+////import org.openqa.selenium.Keys;
+////import org.openqa.selenium.WebDriver;
+////import org.openqa.selenium.WebElement;
+////import org.openqa.selenium.chrome.ChromeDriver;
+////import org.openqa.selenium.support.ui.ExpectedConditions;
+////import org.openqa.selenium.support.ui.WebDriverWait;
+////
+////import java.time.Duration;
+////
+////public class amazonTesting {
+////
+////    public static void main(String[] args) {
+////        // Set the path to your WebDriver executable
+////        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+////
+////        // Initialize the Chrome driver
+////        WebDriver driver = new ChromeDriver();
+////
+////        try {
+////            // Navigate to Amazon India
+////            driver.get("https://www.amazon.in/");
+////
+////            // Maximize the browser window
+////            driver.manage().window().maximize();
+////
+////            // Wait for the sign-in button to be clickable and click it
+////            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////            WebElement signInButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-link-accountList")));
+////            signInButton.click();
+////
+////            // Enter the username
+////            WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email")));
+////            emailField.sendKeys("your-email@example.com");
+////
+////            // Click continue
+////            WebElement continueButton = driver.findElement(By.id("continue"));
+////            continueButton.click();
+////
+////            // Enter the password
+////            WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
+////            passwordField.sendKeys("your-password");
+////
+////            // Click sign-in
+////            WebElement signInSubmitButton = driver.findElement(By.id("signInSubmit"));
+////            signInSubmitButton.click();
+////
+////            // Wait for the search bar to be visible and enter the search term
+////            WebElement searchBar = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("twotabsearchtextbox")));
+////            searchBar.sendKeys("iPhone 15 Pro");
+////            searchBar.sendKeys(Keys.RETURN);
+////
+////            // Add additional steps as needed (e.g., validating search results)
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        } finally {
+////            // Close the browser
+////            driver.quit();
+////        }
+////    }
+////}
+//
+////import org.openqa.selenium.By;
+////import org.openqa.selenium.WebDriver;
+////import org.openqa.selenium.WebElement;
+////import org.openqa.selenium.chrome.ChromeDriver;
+////
+////public class amazonTesting {
+////    public static void main(String[] args) {
+////        // Set the path to your ChromeDriver
+////        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+////
+////        // Initialize WebDriver
+////        WebDriver driver = new ChromeDriver();
+////
+////        try {
+////            // Open Amazon's website
+////            driver.get("https://www.amazon.in");
+////
+////            // Click on the sign-in button
+////            WebElement signInButton = driver.findElement(By.id("nav-link-accountList"));
+////            signInButton.click();
+////
+////            // Enter email address
+////            WebElement emailField = driver.findElement(By.id("ap_email"));
+////            emailField.sendKeys("sarvottambhagat38@gmail.com");
+////            driver.findElement(By.id("continue")).click();
+////
+////            // Enter password
+////            WebElement passwordField = driver.findElement(By.id("ap_password"));
+////            passwordField.sendKeys("cmrit@123");
+////            driver.findElement(By.id("signInSubmit")).click();
+////
+////            // Wait for login to complete and then perform the search
+////            Thread.sleep(3000); // Adjust sleep time as needed; use WebDriverWait for better handling
+////
+////            // Perform a search
+////            WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+////            searchBox.sendKeys("laptop");
+////            searchBox.submit(); // Submit the search form
+////
+////            // Wait for the results to load and find the first result
+////            Thread.sleep(2000); // Adjust sleep time as needed; use WebDriverWait for better handling
+////
+////            WebElement firstResult = driver.findElement(By.cssSelector(".s-main-slot .s-result-item"));
+////            System.out.println("First result title: " + firstResult.getText());
+////        } catch (InterruptedException e) {
+////            e.printStackTrace();
+////        } finally {
+////            // Close the browser
+////            driver.quit();
+////        }
+////    }
+////}
+//
+////import org.openqa.selenium.By;
+////import org.openqa.selenium.WebDriver;
+////import org.openqa.selenium.WebElement;
+////import org.openqa.selenium.chrome.ChromeDriver;
+////import org.openqa.selenium.support.ui.ExpectedConditions;
+////import org.openqa.selenium.support.ui.WebDriverWait;
+////
+////import java.time.Duration;
+////
+////public class amazonTesting {
+////    public static void main(String[] args) {
+////        // Set the path to your ChromeDriver
+////        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+////
+////        // Initialize WebDriver
+////        WebDriver driver = new ChromeDriver();
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////
+////        try {
+////            // Open Amazon's website
+////            driver.get("https://www.amazon.in");
+////
+////            // Click on the sign-in button
+////            WebElement signInButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-link-accountList")));
+////            signInButton.click();
+////
+////            // Enter email address
+////            WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email")));
+////            emailField.sendKeys("sarvottambhagat38@gmail.com");
+////            driver.findElement(By.id("continue")).click();
+////
+////            // Enter password
+////            WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
+////            passwordField.sendKeys("cmrit@123");
+////            driver.findElement(By.id("signInSubmit")).click();
+////
+////            // Wait for login to complete
+////            wait.until(ExpectedConditions.titleContains("Amazon"));
+////
+////            // Perform a search
+////            WebElement searchBox = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("twotabsearchtextbox")));
+////            searchBox.sendKeys("laptop");
+////            searchBox.submit();
+////
+////            // Wait for the search results to load
+////            wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".s-main-slot")));
+////
+////            // Select a specific variant of a laptop
+////            // For example, select the second item in the search results
+////            WebElement laptopVariant = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".s-main-slot .s-result-item:nth-of-type(2)")));
+////            laptopVariant.click();
+////
+////            // Wait for the laptop detail page to load
+////            wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("productTitle")));
+////
+////            // Print the title of the selected laptop variant
+////            WebElement title = driver.findElement(By.id("productTitle"));
+////            System.out.println("Selected laptop title: " + title.getText());
+////
+////        } catch (Exception e) {
+////            e.printStackTrace();
+////        } finally {
+////            // Close the browser
+////            driver.quit();
+////        }
+////    }
+////}
+//
+////package demo;
+////
+////import org.openqa.selenium.By;
+////import org.openqa.selenium.WebDriver;
+////import org.openqa.selenium.WebElement;
+////import org.openqa.selenium.chrome.ChromeDriver;
+////import org.openqa.selenium.interactions.Actions;
+////import org.openqa.selenium.support.ui.ExpectedConditions;
+////import org.openqa.selenium.support.ui.WebDriverWait;
+////import java.time.Duration;
+////
+////public class amazonTesting {
+////    public static void main(String[] args) {
+////        // Set WebDriver
+////        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+////        WebDriver driver = new ChromeDriver();
+////        driver.manage().window().maximize();
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+////
+////        // Navigate to Netflix
+////        driver.get("https://www.netflix.com/");
+////
+////        // Click "Sign In" button
+////        driver.findElement(By.linkText("Sign In")).click();
+////
+////        // Fill in login form
+////        driver.findElement(By.name("userLoginId")).sendKeys("netflix.common162@gmail.com");
+////        driver.findElement(By.name("password")).sendKeys("drill247");
+////
+////        // Find and click the login button
+////        WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.xpath("//button[@data-uia='login-submit-button']")));
+////        loginButton.click();
+////
+////        // Select Profile "Ravi"
+////        WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.xpath("//*[@id=\"appMountPoint\"]/div/div/div[1]/div[1]/div[2]/div/div/ul/li[1]/div/a/span")));
+////        profileLink.click();
+////        
+////        try {
+////			Thread.sleep(10000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////
+////        // Initiate search
+////        WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.cssSelector("button.searchTab[aria-label='Search']")));
+////        searchButton.click();
+////
+////        WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+////                By.xpath("//input[@placeholder='Titles, people, genres']")));
+////        searchInput.sendKeys("Animal");
+////        try {
+////			Thread.sleep(5000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////
+////        // Click on the first "Friends" search result
+////        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='title-card-0-0']/div[1]/a")));
+////        driver.findElement(By.xpath("//*[@id='title-card-0-0']/div[1]/a")).click();
+////
+////        try {
+////			Thread.sleep(10000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////        
+////        // Close the preview popup (if present)
+////        WebElement closeButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.cssSelector("span[data-uia='previewModal-closebtn']")));
+////        closeButton.click();
+////
+////        // Hover over the profile icon and sign out
+////        WebElement profileIcon = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.cssSelector("a[href='/YourAccount']")));
+////
+////        Actions actions = new Actions(driver);
+////        actions.moveToElement(profileIcon).perform();
+////        
+////        try {
+////			Thread.sleep(1000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////
+////        WebElement signOutButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.xpath("//a[contains(text(), 'Sign out of Netflix')]")));
+////        signOutButton.click();
+////
+////        WebElement goNowButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.cssSelector("a[data-uia='continue-logout']")));
+////        goNowButton.click();
+////        
+////        try {
+////			Thread.sleep(3000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////
+////        driver.quit(); 
+////    }
+////}
+//
+//
+//
+//
+//
+////521-629
+////
+////package demo;
+////
+////import org.openqa.selenium.By;
+////import org.openqa.selenium.WebDriver;
+////import org.openqa.selenium.WebElement;
+////import org.openqa.selenium.chrome.ChromeDriver;
+////import org.openqa.selenium.interactions.Actions;
+////import org.openqa.selenium.support.ui.ExpectedConditions;
+////import org.openqa.selenium.support.ui.WebDriverWait;
+////import java.time.Duration;
+////
+////public class amazonTesting {
+////    public static void main(String[] args) {
+////
+////    	// Set WebDriver
+////        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+////        WebDriver driver = new ChromeDriver();
+////        driver.manage().window().maximize();
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+////
+////        // Navigate to Netflix
+////        driver.get("https://www.netflix.com/");
+////
+////        // Click "Sign In" button
+////        driver.findElement(By.linkText("Sign In")).click();
+////
+////        // Fill in login form
+////        driver.findElement(By.name("userLoginId")).sendKeys("sksandeep02911@gmail.com");
+////        driver.findElement(By.name("password")).sendKeys("Pulsar@220"); 
+////        System.out.println("test case 1: Login in Successfully!!!!!");
+////
+////        // Find and click the login button
+////        WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.xpath("//button[@data-uia='login-submit-button']")));
+////        loginButton.click();
+////
+////        // Select Profile "Ravi"
+////        WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
+////        		By.xpath("//*[@id=\"appMountPoint\"]/div/div/div[1]/div[1]/div[2]/div/div/ul/li[1]/div/a/span")));
+////        profileLink.click();
+////        System.out.println("test case 2: Profile Selected");
+////        try {
+////			Thread.sleep(10000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////
+////        // Initiate search
+////        WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.cssSelector("button.searchTab[aria-label='Search']")));
+////        searchButton.click();
+////
+////        WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+////                By.xpath("//input[@placeholder='Titles, people, genres']")));
+////        searchInput.sendKeys("Animal");
+////        System.out.println("test case 3: Movie Searched");
+////        try {
+////			Thread.sleep(5000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////
+////        // Click on the first "Friends" search result
+////        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='title-card-0-0']/div[1]/a")));
+////        driver.findElement(By.xpath("//*[@id='title-card-0-0']/div[1]/a")).click();
+////        System.out.println("test case 4: click on the first movie");
+////        try {
+////			Thread.sleep(10000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////        
+////        // Close the preview popup (if present)
+////        WebElement closeButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.cssSelector("span[data-uia='previewModal-closebtn']")));
+////        closeButton.click();
+////        System.out.println("test case 5: close pop-up Window ");
+////
+////        // Hover over the profile icon and sign out
+////        WebElement profileIcon = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.cssSelector("a[href='/YourAccount']")));
+////
+////        Actions actions = new Actions(driver);
+////        actions.moveToElement(profileIcon).perform();
+////        System.out.println("test case 6: click on the profile icon");
+////        try {
+////			Thread.sleep(1000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////
+////        WebElement signOutButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.xpath("//a[contains(text(), 'Sign out of Netflix')]")));
+////        signOutButton.click();
+////        WebElement goNowButton = wait.until(ExpectedConditions.elementToBeClickable(
+////                By.cssSelector("a[data-uia='continue-logout']")));
+////        goNowButton.click();
+////        System.out.println("test case 7: Logout Successfully!!!!!");
+////        try {
+////			Thread.sleep(3000);
+////		} catch (InterruptedException e) {
+////			// TODO Auto-generated catch block
+////			e.printStackTrace();
+////		}
+////
+////        driver.quit(); 
+////    }
+////}
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//package demo;
+//
+//import java.time.Duration;
+//import java.util.List;
+//
+//import org.openqa.selenium.By;
+//import org.openqa.selenium.JavascriptExecutor;
+//import org.openqa.selenium.WebDriver;
+//import org.openqa.selenium.WebElement;
+//import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.support.ui.ExpectedConditions;
+//import org.openqa.selenium.support.ui.WebDriverWait;
+//import org.testng.annotations.AfterTest;
+//import org.testng.annotations.BeforeTest;
+//import org.testng.annotations.Test;
+//
+//public class amazonTesting {
+//    public String base = "https://www.amazon.in/?tag=googmantxtmob170-21&ascsubtag=k_CjwKCAjw1920BhA3EiwAJT3lSaVLIcCgtcZROE07wnv-C1-BOFq8vW6Bm8hwRlagIyD_2tGBu7brdhoCP7cQAvD_BwE_k";
+//    public WebDriver driver;
+//
+//    @BeforeTest
+//    public void setup() {
+//        System.out.println("Before Test Executed");
+//        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+//        driver = new ChromeDriver();
+//        driver.manage().window().maximize();
+//        driver.get(base);
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+//    }
+//
+//    @Test
+//    public void testAmazonHomePage() {
+//        System.out.println("Test Amazon Home Page Executed");
+//        searchAndSelectItem("Apple iPhone 15 Pro (128 GB) - Natural Titanium");
+//        searchForTShirtForMen();
+//        applyBrandFilter("Allen Solly");
+//    }
+//
+//    public void searchAndSelectItem(String itemName) {
+//        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+//        searchBox.sendKeys(itemName);
+//        driver.findElement(By.id("nav-search-submit-button")).click();
+//
+//        // Wait for search results to load
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal")));
+//
+//        // Scroll and find the item
+//        boolean itemFound = false;
+//        int scrollAttempts = 0;
+//        while (!itemFound && scrollAttempts < 10) { // Limit the number of scroll attempts to avoid infinite loop
+//            List<WebElement> items = driver.findElements(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal"));
+//            for (WebElement item : items) {
+//                if (item.getText().contains(itemName)) {
+//                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", item);
+//                    wait.until(ExpectedConditions.elementToBeClickable(item));
+//                    item.click();
+//                    itemFound = true;
+//                    break;
+//                }
+//            }
+//            if (!itemFound) {
+//                // Scroll down by 1000 pixels
+//                System.out.println("Scrolling down by 1000 pixels...");
+//                ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,1000)");
+//                // Wait for 3 seconds after scrolling
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                scrollAttempts++;
+//            }
+//        }
+//
+//        if (!itemFound) {
+//            System.out.println("Item not found after scrolling.");
+//        } else {
+//            System.out.println("Item found and clicked: " + itemName);
+//        }
+//    }
+//
+//    public void searchForTShirtForMen() {
+//        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+//        searchBox.clear();
+//        searchBox.sendKeys("t-shirt for men");
+//        driver.findElement(By.id("nav-search-submit-button")).click();
+//
+//        // Wait for search results to load
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal")));
+//
+//        // Scroll and find the item
+//        boolean itemFound = false;
+//        int scrollAttempts = 0;
+//        while (!itemFound && scrollAttempts < 10) { // Limit the number of scroll attempts to avoid infinite loop
+//            List<WebElement> items = driver.findElements(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal"));
+//            for (WebElement item : items) {
+//                if (item.getText().contains("t-shirt for men")) {
+//                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", item);
+//                    wait.until(ExpectedConditions.elementToBeClickable(item));
+//                    item.click();
+//                    itemFound = true;
+//                    break;
+//                }
+//            }
+//            if (!itemFound) {
+//                // Scroll down by 1000 pixels
+//                System.out.println("Scrolling down by 1000 pixels...");
+//                ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,1000)");
+//                // Wait for 3 seconds after scrolling
+//                try {
+//                    Thread.sleep(3000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//                scrollAttempts++;
+//            }
+//        }
+//
+//        if (!itemFound) {
+//            System.out.println("T-shirt for men not found after scrolling.");
+//        } else {
+//            System.out.println("T-shirt for men found and clicked.");
+//        }
+//    }
+//
+//    public void applyBrandFilter(String brandName) {
+//        WebElement brandFilter = driver.findElement(By.xpath("//span[contains(text(), 'Brand')]"));
+//        brandFilter.click();
+//
+//        // Wait for brand filter options to load
+//        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='brandsRefinements']//span[contains(text(), '" + brandName + "')]")));
+//
+//        // Click on the specified brand filter
+//        WebElement brandOption = driver.findElement(By.xpath("//div[@id='brandsRefinements']//span[contains(text(), '" + brandName + "')]"));
+//        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", brandOption);
+//        wait.until(ExpectedConditions.elementToBeClickable(brandOption));
+//        brandOption.click();
+//
+//        System.out.println("Applied brand filter: " + brandName);
+//    }
+//
+//    @AfterTest
+//    public void tearDown() throws InterruptedException {
+//        Thread.sleep(1000);
+//        driver.close();
+//        driver.quit();
+//    }
+//}
+//
+//
+//
+//
+//
+//
+//
+//
+////login in
+////package demo;
+////
+////import java.time.Duration;
+////import java.util.List;
+////
+////import org.openqa.selenium.By;
+////import org.openqa.selenium.JavascriptExecutor;
+////import org.openqa.selenium.WebDriver;
+////import org.openqa.selenium.WebElement;
+////import org.openqa.selenium.chrome.ChromeDriver;
+////import org.openqa.selenium.support.ui.ExpectedConditions;
+////import org.openqa.selenium.support.ui.WebDriverWait;
+////import org.testng.annotations.AfterTest;
+////import org.testng.annotations.BeforeTest;
+////import org.testng.annotations.Test;
+////
+////public class amazonTesting {
+////    public String base = "https://www.amazon.in/?tag=googmantxtmob170-21&ascsubtag=k_CjwKCAjw1920BhA3EiwAJT3lSaVLIcCgtcZROE07wnv-C1-BOFq8vW6Bm8hwRlagIyD_2tGBu7brdhoCP7cQAvD_BwE_k";
+////    public WebDriver driver;
+////
+////    @BeforeTest
+////    public void setup() {
+////        System.out.println("Before Test Executed");
+////        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+////        driver = new ChromeDriver();
+////        driver.manage().window().maximize();
+////        driver.get(base);
+////        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+////    }
+////
+////    @Test
+////    public void testAmazonHomePage() {
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////
+////        // Sign in to Amazon
+////        signInAmazon(wait);
+////
+////        // Perform search and select actions
+////        searchAndSelectItem("Apple iPhone 15 Pro (128 GB) - Natural Titanium");
+////        searchForTShirtForMen();
+////        applyBrandFilter("Allen Solly");
+////    }
+////
+////    public void signInAmazon(WebDriverWait wait) {
+////        System.out.println("Amazon Sign In Test Executed");
+////
+////        try {
+////            // Click "Sign In" button
+////            WebElement signInButton = wait.until(ExpectedConditions.elementToBeClickable(By.id("nav-link-accountList")));
+////            signInButton.click();
+////            System.out.println("Clicked on Sign In button");
+////
+////            // Enter email address
+////            WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_email")));
+////            emailField.sendKeys("sarvottambhagat38@gmail.com");
+////            driver.findElement(By.id("continue")).click();
+////            System.out.println("Entered email and clicked continue");
+////
+////            // Wait for password field to be visible
+////            WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("ap_password")));
+////            passwordField.sendKeys("cmrit@123");
+////            driver.findElement(By.id("signInSubmit")).click();
+////            System.out.println("Entered password and clicked Sign In");
+////
+////            // Wait for successful login and verify
+////            wait.until(ExpectedConditions.presenceOfElementLocated(By.id("nav-link-accountList")));
+////            System.out.println("Amazon sign-in successful.");
+////        } catch (Exception e) {
+////            System.out.println("Exception during sign-in: " + e.getMessage());
+////        }
+////    }
+////
+////    public void searchAndSelectItem(String itemName) {
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////
+////        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+////        searchBox.sendKeys(itemName);
+////        driver.findElement(By.id("nav-search-submit-button")).click();
+////
+////        // Wait for search results to load
+////        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal")));
+////
+////        // Scroll and find the item
+////        boolean itemFound = false;
+////        int scrollAttempts = 0;
+////        while (!itemFound && scrollAttempts < 10) { // Limit the number of scroll attempts to avoid infinite loop
+////            List<WebElement> items = driver.findElements(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal"));
+////            for (WebElement item : items) {
+////                if (item.getText().contains(itemName)) {
+////                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", item);
+////                    wait.until(ExpectedConditions.elementToBeClickable(item));
+////                    item.click();
+////                    itemFound = true;
+////                    break;
+////                }
+////            }
+////            if (!itemFound) {
+////                // Scroll down by 1000 pixels
+////                System.out.println("Scrolling down by 1000 pixels...");
+////                ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,1000)");
+////                // Wait for 3 seconds after scrolling
+////                try {
+////                    Thread.sleep(3000);
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+////                scrollAttempts++;
+////            }
+////        }
+////
+////        if (!itemFound) {
+////            System.out.println("Item not found after scrolling.");
+////        } else {
+////            System.out.println("Item found and clicked: " + itemName);
+////        }
+////    }
+////
+////    public void searchForTShirtForMen() {
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////
+////        WebElement searchBox = driver.findElement(By.id("twotabsearchtextbox"));
+////        searchBox.clear();
+////        searchBox.sendKeys("t-shirt for men");
+////        driver.findElement(By.id("nav-search-submit-button")).click();
+////
+////        // Wait for search results to load
+////        wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal")));
+////
+////        // Scroll and find the item
+////        boolean itemFound = false;
+////        int scrollAttempts = 0;
+////        while (!itemFound && scrollAttempts < 10) { // Limit the number of scroll attempts to avoid infinite loop
+////            List<WebElement> items = driver.findElements(By.cssSelector("span.a-size-medium.a-color-base.a-text-normal"));
+////            for (WebElement item : items) {
+////                if (item.getText().contains("t-shirt for men")) {
+////                    ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", item);
+////                    wait.until(ExpectedConditions.elementToBeClickable(item));
+////                    item.click();
+////                    itemFound = true;
+////                    break;
+////                }
+////            }
+////            if (!itemFound) {
+////                // Scroll down by 1000 pixels
+////                System.out.println("Scrolling down by 1000 pixels...");
+////                ((JavascriptExecutor) driver).executeScript("window.scrollBy(0,1000)");
+////                // Wait for 3 seconds after scrolling
+////                try {
+////                    Thread.sleep(3000);
+////                } catch (InterruptedException e) {
+////                    e.printStackTrace();
+////                }
+////                scrollAttempts++;
+////            }
+////        }
+////
+////        if (!itemFound) {
+////            System.out.println("T-shirt for men not found after scrolling.");
+////        } else {
+////            System.out.println("T-shirt for men found and clicked.");
+////        }
+////    }
+////
+////    public void applyBrandFilter(String brandName) {
+////        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+////
+////        WebElement brandFilter = driver.findElement(By.xpath("//span[contains(text(), 'Brand')]"));
+////        brandFilter.click();
+////
+////        // Wait for brand filter options to load
+////        wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//div[@id='brandsRefinements']//span[contains(text(), '" + brandName + "')]")));
+////
+////        // Click on the specified brand filter
+////        WebElement brandOption = driver.findElement(By.xpath("//div[@id='brandsRefinements']//span[contains(text(), '" + brandName + "')]"));
+////        ((JavascriptExecutor) driver).executeScript("arguments[0].scrollIntoView(true);", brandOption);
+////        wait.until(ExpectedConditions.elementToBeClickable(brandOption));
+////        brandOption.click();
+////
+////        System.out.println("Applied brand filter: " + brandName);
+////    }
+////
+////    @AfterTest
+////    public void tearDown() throws InterruptedException {
+////        Thread.sleep(1000);
+////        driver.close();
+////        driver.quit();
+////    }
+////}
+
+
+
+package demo;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import java.time.Duration;
+
+public class amazonTesting {
+    public static void main(String[] args) {
+
+    	// Set WebDriver
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\User\\Downloads\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+
+        // Navigate to Netflix
+        driver.get("https://www.netflix.com/");
+
+        // Click "Sign In" button
+        driver.findElement(By.linkText("Sign In")).click();
+
+        // Fill in login form
+        driver.findElement(By.name("userLoginId")).sendKeys("sksandeep02911@gmail.com");
+        driver.findElement(By.name("password")).sendKeys("Pulsar@220"); 
+        System.out.println("test case 1: Login in Successfully!!!!!");
+
+        // Find and click the login button
+        WebElement loginButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//button[@data-uia='login-submit-button']")));
+        loginButton.click();
+
+        // Select Profile "Ravi"
+        WebElement profileLink = wait.until(ExpectedConditions.elementToBeClickable(
+        		By.xpath("//*[@id=\"appMountPoint\"]/div/div/div[1]/div[1]/div[2]/div/div/ul/li[1]/div/a/span")));
+        profileLink.click();
+        System.out.println("test case 2: Profile Selected");
+        try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        // Initiate search
+        WebElement searchButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("button.searchTab[aria-label='Search']")));
+        searchButton.click();
+
+        WebElement searchInput = wait.until(ExpectedConditions.visibilityOfElementLocated(
+                By.xpath("//input[@placeholder='Titles, people, genres']")));
+        searchInput.sendKeys("Animal");
+        System.out.println("test case 3: Movie Searched");
+        try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        // Click on the first "Friends" search result
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='title-card-0-0']/div[1]/a")));
+        driver.findElement(By.xpath("//*[@id='title-card-0-0']/div[1]/a")).click();
+        System.out.println("test case 4: click on the first movie");
+        try {
+			Thread.sleep(10000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        // Close the preview popup (if present)
+        WebElement closeButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("span[data-uia='previewModal-closebtn']")));
+        closeButton.click();
+        System.out.println("test case 5: close pop-up Window ");
+
+        // Hover over the profile icon and sign out
+        WebElement profileIcon = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("a[href='/YourAccount']")));
+
+        Actions actions = new Actions(driver);
+        actions.moveToElement(profileIcon).perform();
+        System.out.println("test case 6: click on the profile icon");
+        try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        WebElement signOutButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.xpath("//a[contains(text(), 'Sign out of Netflix')]")));
+        signOutButton.click();
+        WebElement goNowButton = wait.until(ExpectedConditions.elementToBeClickable(
+                By.cssSelector("a[data-uia='continue-logout']")));
+        goNowButton.click();
+        System.out.println("test case 7: Logout Successfully!!!!!");
+        try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+        driver.quit(); 
+    }
+}

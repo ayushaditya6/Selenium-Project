@@ -1,0 +1,26 @@
+package demo;
+
+import java.time.Duration;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+
+public class amazonTesting {
+	public String base = "https://www.amazon.in/?tag=googmantxtmob170-21&ascsubtag=_k_CjwKCAjw1920BhA3EiwAJT3lSaVLIcCgtcZROE07wnv-C1-BOFq8vW6Bm8hwRlagIyD_2tGBu7brdhoCP7cQAvD_BwE_k_";
+	public WebDriver driver;
+	@BeforeTest
+	public void setup() {
+		System.out.println("Before Test Executed");
+		driver = new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.get(base);
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+		}
+	@AfterTest
+	public void tearDown() throws InterruptedException {
+		Thread.sleep(1000);
+		driver.close();
+		driver.quit();}
+}
